@@ -21,7 +21,7 @@ def find_largest_region(image_file):
 
             if img.getpixel(coord) != current_color:
                 return
-            # region_px_visited is a smaller list than global_px_visited
+            # region_px_visited is a smaller set than global_px_visited
             if coord in region_px_visited:
                 return
 
