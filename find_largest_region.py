@@ -6,6 +6,8 @@ def find_largest_region(image_file):
     largest_region = 0
     global_px_visited = set()
     img = Image.open(image_file)
+    xmax = img.size[0] - 1
+    ymax = img.size[1] - 1
     #for debugging
     #debug_regions = []
 
@@ -17,8 +19,6 @@ def find_largest_region(image_file):
 
         def flood_recurse(coord):
             x,y = coord
-            xmax = img.size[0] - 1
-            ymax = img.size[1] - 1
 
             if img.getpixel(coord) != current_color:
                 return
