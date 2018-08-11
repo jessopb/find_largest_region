@@ -1,5 +1,6 @@
 from PIL import Image
 
+
 def find_largest_region(image_file):
     '''Returns the size of the largest contiguous color region in an image_file
     '''
@@ -8,8 +9,6 @@ def find_largest_region(image_file):
     img = Image.open(image_file)
     xmax = img.size[0] - 1
     ymax = img.size[1] - 1
-    #for debugging
-    #debug_regions = []
 
     def flood_region(coord):
         '''Wrapper for recursive flood-fill style alogorithm
@@ -18,11 +17,11 @@ def find_largest_region(image_file):
         region_px_visited = set()
 
         def flood_recurse(coord):
-            x,y = coord
+            x, y = coord
 
             if img.getpixel(coord) != current_color:
                 return
-            #region_px_visited is a smaller list than global_px_visited
+            # region_px_visited is a smaller list than global_px_visited
             if coord in region_px_visited:
                 return
 
@@ -39,23 +38,22 @@ def find_largest_region(image_file):
                 flood_recurse((x+1, y))
 
         flood_recurse(coord)
-        #for debugging:
-        #debug_regions.append(region_px_visited)
+        # to output more comprehensive region data,
+        # append region_px_visited set to list from here
 
         return len(region_px_visited)
 
     for y in range(img.size[1]):
         for x in range(img.size[0]):
-            coord = (x,y)
-            #global_px_visited says whether to bother with a pixel globally
+            coord = (x, y)
+            # global_px_visited says whether to bother with a pixel globally
             if coord not in global_px_visited:
                 size = flood_region(coord)
                 if size > largest_region:
                     largest_region = size
-    # for debugging:
-    # for region in debug_regions:
-    #     print(len(region),region)
+
     return largest_region
+
 
 def test():
     print("Largest Region has", find_largest_region('map1.bmp'), 'pixels.')
