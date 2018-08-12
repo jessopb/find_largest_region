@@ -4,7 +4,7 @@ import pathvalidate
 
 def find_largest_region(image_file, output_file="None"):
     '''Returns the size of the largest contiguous color region in an image.
-       If paint_new is true, it saves a new image with that region painted.
+       If second filename is given, saves a new painted image with that name.
     '''
 
     largest_region = set()
