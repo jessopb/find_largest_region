@@ -1,12 +1,11 @@
 from PIL import Image
+import pathvalidate
 
 
-def find_largest_region(image_file, paint_new):
+def find_largest_region(image_file, output_file="None"):
     '''Returns the size of the largest contiguous color region in an image.
        If paint_new is true, it saves a new image with that region painted.
     '''
-
-    paint = paint_new
 
     largest_region = set()
     global_px_visited = set()
@@ -57,16 +56,22 @@ def find_largest_region(image_file, paint_new):
                 if len(region_pixels) > len(largest_region):
                     largest_region = region_pixels
 
-    if paint is True:
+    try:
+        pathvalidate.validate_filename(output_file)
+    except ValueError:
+        print('invalid filename')
+        output_file = None
+
+    if output_file is not None:
         for point in largest_region:
             img.putpixel((point), (255, 0, 0))
-        img.save('newmap.bmp')
+        img.save(output_file)
     return len(largest_region)
 
 
 def test():
     print('Largest Region has',
-          find_largest_region('map1000.bmp', True),
+          find_largest_region('map1000.bmp', 'newmap.bmp'),
           'pixels.')
 
 
