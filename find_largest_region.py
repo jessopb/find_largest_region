@@ -6,9 +6,9 @@ def find_largest_region(image_file, paint_new):
        If paint_new is true, it saves a new image with that region painted.
     '''
 
-    largest_region = []
-    largest_region.append([0])
     paint = paint_new
+
+    largest_region = set()
     global_px_visited = set()
 
     img = Image.open(image_file)
@@ -54,15 +54,14 @@ def find_largest_region(image_file, paint_new):
             # global_px_visited says whether to bother with a pixel globally
             if coord not in global_px_visited:
                 region_pixels = flood_region(coord)
-                if len(region_pixels) > len(largest_region[0]):
-                    largest_region[0] = region_pixels
+                if len(region_pixels) > len(largest_region):
+                    largest_region = region_pixels
 
     if paint is True:
-        for point in largest_region[0]:
+        for point in largest_region:
             img.putpixel((point), (255, 0, 0))
         img.save('newmap.bmp')
-    print(largest_region[0])
-    return len(largest_region[0])
+    return len(largest_region)
 
 
 def test():
